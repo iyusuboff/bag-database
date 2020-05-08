@@ -261,3 +261,59 @@ Only Tomcat 8.0 with Java 8.0 has been tested.
 5. Look inside the log file at `${TOMCAT_HOME}/logs/bag_database.log` to find the automatically-generated administrator password.
 6. Log in through the GUI and use the Maintenance panel to change the password.
 7. Note that in order for video streaming to work, `ffmpeg` version 3 or higher must be available on the system path.
+
+
+#### Follow these steps to setup OpenLDAP server.
+All these steps are inspired from this [blog](https://www.linux.com/topic/desktop/how-install-openldap-ubuntu-server-1804/).
+1. Installation:
+    ```
+    sudo apt-get update
+    sudo apt-get upgrade -y
+    sudo apt-get install slapd ldap-utils -y
+    ```
+   During the setup Administrator password will be asked so set it up and confirm it.
+2. Configuration:
+    ```
+   sudo dpkg-reconfigure slapd
+    ```
+   Below are some default choices which you can use to work with this repository.
+   Application was tested with these choices only.
+   - Omit: No (Keeps default configuration of the ldap server)
+   - DNS domain name: springframework.org
+   - Organisation name: Spring
+   - Admin password: pwd (Keep same as the earlier one and confirm the same)
+   - Database Type: MDB
+   - Purging Database: Yes
+   - Move old Database: Yes
+   
+3. Adding entries in the OpenLDAP server, here we are using ldif file for this
+    purpose which is not suitable for production but it's okay in local develop
+    environment. You'll find this file in the main root of this repository, and the 
+    base structure of the file is also adapted from the [blog](https://www.linux.com/topic/desktop/how-install-openldap-ubuntu-server-1804/).
+    ``` 
+    ldapadd -x -D cn=admin,dc=springframework,dc=org -W -f OpenLDAP_data.ldif
+    ```
+   You will be asked for `admin` password here.
+4. The OpenLDAP server should be running by now, you can check the status with the
+    following command:
+    ```
+    sudo systemctl status slapd
+    ```
+   If you need to manually restart or enable it use the following commands:
+   ```
+   sudo systemctl enable slapd
+   sudo systemctl restart slapd
+   ```   
+5. In case you need to remove OpenLDAP use the following commands taken from this [blog](https://installlion.com/ubuntu/xenial/main/s/slapd/uninstall/index.html):
+    ```
+    sudo apt-get remove --auto-remove slapd  
+    ```
+   And to completely purge remove:
+   ```
+   sudo apt-get purge --auto-remove slapd
+   ```
+6. Now you can launch the project and and for now there's only two users in 
+    our server Database which you can see in the ldif file also.
+   Use the below details to login in the application:
+    - username: ben, password: benspassword
+    - username: bob, password: bobspassword 

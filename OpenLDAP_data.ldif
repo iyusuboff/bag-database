@@ -1,0 +1,44 @@
+dn: ou=People,dc=springframework,dc=org
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Groups,dc=springframework,dc=org
+objectClass: organizationalUnit
+ou: Groups
+
+dn: cn=Artist,ou=Groups,dc=springframework,dc=org
+objectClass: posixGroup
+cn: SUBGROUP
+gidNumber: 5000
+
+dn: uid=ben,ou=People,dc=springframework,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: ben
+sn: Affleck
+givenName: Ben
+cn: Ben Affleck
+displayName: Ben
+uidNumber: 10001
+gidNumber: 5000
+userPassword: benspassword
+gecos: Ben Affleck
+loginShell: /bin/bash
+homeDirectory: USERDIRECTORY1
+
+dn: uid=bob,ou=People,dc=springframework,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: bob
+sn: Marley
+givenName: Bob
+cn: Bob Marley
+displayName: Bob
+uidNumber: 10002
+gidNumber: 5000
+userPassword: bobspassword
+gecos: Bob Marley
+loginShell: /bin/bash
+homeDirectory: USERDIRECTORY2
